@@ -21,3 +21,10 @@ galaga in phaser
 	- shots fired
 	- number of hits
 	- hit miss ratio
+
+
+# Game responsibility split up
+- galaga logic
+- enemy flight patterns
+- enemy logic
+- result of collision logic

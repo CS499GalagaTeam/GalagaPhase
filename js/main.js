@@ -2,7 +2,7 @@ var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create:
 
 function preload() {
 	game.load.image('background', './assets/images/background.jpg');
-	game.load.image('galaga', './assets/galaga.png');
+	game.load.image('galaga', './assets/images/galaga.png');
 	game.load.image('bullet', './assets/images/bullet.png');
 	game.load.image('enemy1', './assets/images/enemy1.png');
 	game.load.image('enemy2', './assets/images/enemy2.png');

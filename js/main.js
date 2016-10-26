@@ -14,7 +14,7 @@ function create() {
 	game.add.sprite(0,0, 'background');
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 
-	var player =game.add.sprite(0.45*600,600-50,'galaga');
+	var player = game.add.sprite(0.45*600,600-50,'galaga');
 	game.physics.arcade.enable(player);
 }
 

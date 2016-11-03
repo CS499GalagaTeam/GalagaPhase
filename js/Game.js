@@ -1,21 +1,26 @@
-var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create, update: update});
+var Game = function(game) {
 
-function preload() {
+	this.game = game;
+	this.player = null;
+	this.bullet = null;
+	this.keys = null;
+	this.shootButton = null;
+
+}
+
+Game.prototype = {
+
+  preload:function() {
+
 	game.load.image('background', './assets/images/background.jpg');
 	game.load.image('galaga', './assets/images/galaga.png');
 	game.load.image('bullet', './assets/images/bullet.png');
 	game.load.image('enemy1', './assets/images/enemy1.png');
 	game.load.image('enemy2', './assets/images/enemy2.png');
 	game.load.image('explosion', './assets/images/explosion.png');
-}
+},
 
-var player;
-var keys;
-var shootButton;
-var bullet;
-var bulletDelay;
-
-function create() {
+  create: function() {
 
 	//game.add.sprite(0,0, 'background');
 	game.physics.startSystem(Phaser.Physics.ARCADE);
@@ -42,9 +47,16 @@ function create() {
 	//enabling keyboard use
 	keys = game.input.keyboard.createCursorKeys();
 	shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
-}
 
-function update() {
+},
+
+ update: function() {
+
+ 	this.playerMovement();
+
+},
+
+playerMovement: function() {
 
 	// Reset the players velocity (movement)
 	player.body.velocity.x = 0;
@@ -65,4 +77,7 @@ function update() {
 		bullet.fire();
 	}
 }
+
+};
+ 
 

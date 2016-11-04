@@ -5,6 +5,7 @@ var Game = function(game) {
 	this.bullet = null;
 	this.keys = null;
 	this.shootButton = null;
+	this.pewpew = null;
 
 }
 
@@ -18,18 +19,21 @@ Game.prototype = {
 	game.load.image('enemy1', './assets/images/enemy1.png');
 	game.load.image('enemy2', './assets/images/enemy2.png');
 	game.load.image('explosion', './assets/images/explosion.png');
+
+	game.load.audio('pewpew', './assets/sounds/pewpew.wav');
 },
 
   create: function() {
 
 	//game.add.sprite(0,0, 'background');
 	game.physics.startSystem(Phaser.Physics.ARCADE);
+	pewpew =  game.add.audio('pewpew');
 
 	//creates player
 	player = game.add.sprite(0.45*600,600-50,'galaga');
 	game.physics.arcade.enable(player);
 
-	// allows player to fire 2 bullets 
+	// allows player to fire 2 bullets
 	bullet = game.add.weapon(2,'bullet');
 
 	// when bullet leaves the screen, it will be destroyed
@@ -51,9 +55,7 @@ Game.prototype = {
 },
 
  update: function() {
-
  	this.playerMovement();
-
 },
 
 playerMovement: function() {
@@ -74,10 +76,8 @@ playerMovement: function() {
 	}
 	//shooting the bullet
 	if (shootButton.isDown) {
+		pewpew.play();
 		bullet.fire();
 	}
 }
-
 };
- 
-

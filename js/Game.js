@@ -50,7 +50,7 @@ Game.prototype = {
 
 },
 
- update: function() {
+update: function() {
 
  	this.playerMovement();
 

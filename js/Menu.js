@@ -12,14 +12,17 @@ Menu.prototype = {
  	// creates title
  	var title = this.game.add.sprite(400,100,'title');
  	title.anchor.setTo(0.5,0.5);
+	title.scale.setTo(0.5,0.5)
 
  	// play button
 	var playBtn = this.game.add.button(400,300,'play',this.actionOnClick,this);
 	playBtn.anchor.setTo(0.5,0.5);
 
 	var style = {font:"20px Arial", fill:"#ff0000", align:"center"};
-	var up1_text = this.game.add.text(100,100, "1UP", style);
+	var up1_text = this.game.add.text(title.x - 270, 50, "1UP", style);
 	up1_text.anchor.set(0.5,0.5);
+
+	
 },
 
 update: function() {

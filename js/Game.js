@@ -23,7 +23,7 @@ Game.prototype = {
 	game.load.image('explosion', './assets/images/explosion.png');
 
 	game.load.audio('pewpew', './assets/sounds/pewpew.wav');
-},
+  },
 
   create: function() {
 
@@ -42,18 +42,20 @@ Game.prototype = {
 	bullet.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 
 	//offset rotation:
-    bullet.bulletAngleOffset = 90;
+	bullet.bulletAngleOffset = 90;
 
-    //  The speed at which the bullet is fired
-    bullet.bulletSpeed = 400;
+    	//  The speed at which the bullet is fired
+    	bullet.bulletSpeed = 400;
 
-    //  Tell the bullet to track the 'player' Sprite, offset by 16px horizontally, 0 vertically
-    bullet.trackSprite(player, 16, 0);
+    	//  Tell the bullet to track the 'player' Sprite, offset by 16px horizontally, 0 vertically
+    	bullet.trackSprite(player, 16, 0);
 
 
 	//enabling keyboard use
 	keys = game.input.keyboard.createCursorKeys();
 	shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
+	shootButton.onDown.add(this.shootFunction);
+	bullet.onFire.add(function(){pewpew.play()})
 
 },
 
@@ -78,14 +80,10 @@ playerMovement: function() {
 	else  {
 		//ship is idle
 	}
-	//shooting the bullet
-	if (shootButton.isDown) {
-		bullet.fire();
-	}
 },
 
 shootFunction: function() {
-	pewpew.play()
+	bullet.fire()
 }
 
 };

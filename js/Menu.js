@@ -17,7 +17,9 @@ Menu.prototype = {
 	var playBtn = this.game.add.button(400,300,'play',this.actionOnClick,this);
 	playBtn.anchor.setTo(0.5,0.5);
 
-	
+	var style = {font:"20px Arial", fill:"#ff0000", align:"center"};
+	var up1_text = this.game.add.text(100,100, "1UP", style);
+	up1_text.anchor.set(0.5,0.5);
 },
 
 update: function() {

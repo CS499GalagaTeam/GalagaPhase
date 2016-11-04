@@ -7,6 +7,8 @@ var Game = function(game) {
 	this.shootButton = null;
 	this.pewpew = null;
 
+	this.shouldShoot;
+
 }
 
 Game.prototype = {
@@ -48,6 +50,7 @@ Game.prototype = {
     //  Tell the bullet to track the 'player' Sprite, offset by 16px horizontally, 0 vertically
     bullet.trackSprite(player, 16, 0);
 
+
 	//enabling keyboard use
 	keys = game.input.keyboard.createCursorKeys();
 	shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -76,8 +79,12 @@ playerMovement: function() {
 	}
 	//shooting the bullet
 	if (shootButton.isDown) {
-		pewpew.play();
 		bullet.fire();
 	}
+},
+
+shootFunction: function() {
+	pewpew.play()
 }
+
 };

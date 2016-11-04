@@ -16,6 +16,8 @@ Menu.prototype = {
  	// play button
 	var playBtn = this.game.add.button(400,300,'play',this.actionOnClick,this);
 	playBtn.anchor.setTo(0.5,0.5);
+
+	
 },
 
 update: function() {

@@ -10,18 +10,28 @@ Menu.prototype = {
  create: function() {
 
  	// creates title
- 	var title = this.game.add.sprite(400,100,'title');
+ 	var title = this.game.add.sprite(this.game.width/2,200,'title');
  	title.anchor.setTo(0.5,0.5);
-	title.scale.setTo(0.5,0.5)
+	title.scale.setTo(0.6,0.6)
 
  	// play button
-	var playBtn = this.game.add.button(400,300,'play',this.actionOnClick,this);
+	var playBtn = this.game.add.button(this.game.width/2,300,'play',this.actionOnClick,this);
 	playBtn.anchor.setTo(0.5,0.5);
+	playBtn.scale.setTo(0.7,0.7);
 
-	var style = {font:"20px Arial", fill:"#ff0000", align:"center"};
-	var up1_text = this.game.add.text(title.x - 270, 50, "1UP", style);
-	up1_text.anchor.set(0.5,0.5);
+	var text_style = {font:"20px Arial", fill:"#ff0000", align:"center"};
+	var highScore_text = this.game.add.text(this.game.width/2, 50, "HI-SCORE", text_style);
+	highScore_text.anchor.set(0.5,0.5);
 
+	var score_style = {font:"20px Arial", fill:"#ffffff", align:"center"};
+	var highScore_value = document.getElementById("highscore1").value
+	var highScoreValue_text = this.game.add.text(this.game.width/2, 80, highScore_value, score_style)
+	highScoreValue_text.anchor.set(0.5,0.5)
+
+
+	var our_name = this.game.add.text(this.game.width/2, playBtn.y + 90, "The Planeteers", text_style);
+	our_name.anchor.set(0.5,0.5)
+	
 	
 },
 

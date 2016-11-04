@@ -6,15 +6,50 @@
 	</head>
 
 	<body>
+
+
+		<input type="hidden" id="highscore1" value="0">
+		<input type="hidden" id="highscore1name" value="AAA">
+		<input type="hidden" id="highscore2" value="0">
+		<input type="hidden" id="highscore2name" value="AAA">
+		<input type="hidden" id="highscore3" value="0">
+		<input type="hidden" id="highscore3name" value="AAA">
+		<input type="hidden" id="highscore4" value="0">
+		<input type="hidden" id="highscore4name" value="AAA">
+		<input type="hidden" id="highscore5" value="0">
+		<input type="hidden" id="highscore5name" value="AAA">
+
 		<script src="./phaser/phaser.min.js"></script>
 		<script src="./js/Menu.js"></script>
 		<script src="./js/Game.js"></script>
 		<script type="text/javascript">
-			
+
+var http = new XMLHttpRequest()
+var url = "http://localhost:8080/getData"
+http.open("POST", url, true)
+http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+http.onreadystatechange = function() {
+	if (http.readyState == 4 && http.status == 200) {
+		var data = JSON.parse(http.responseText)
+		var scores = data["Scores"]
+		var length = scores.length
+		for (var i = 1; i <= length; ++i) {
+			var tmp = document.getElementById("highscore"+i)
+			var tmpName = document.getElementById("highscore"+i+"name")
+			tmp.value = scores[i - 1]["Score"]
+			tmpName.value = scores[i - 1]["Name"]
+		}
+	}
+}
+
+http.send("")
+
 var game = new Phaser.Game(800, 600, Phaser.AUTO, '', {preload: preload, create: create, update: update});
 
 game.state.add('menu',Menu);
 game.state.add('game',Game);
+game.state.add('highscore',HighScore);
+game.state.add('credit',Credit);
 game.state.start('menu',Menu);
 
 function preload() {
@@ -22,7 +57,6 @@ function preload() {
 }
 
 function create() {
-
 	
 }
 

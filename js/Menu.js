@@ -1,4 +1,4 @@
-Menu = function(game) {
+Menu = function() {
 }
 
 Menu.prototype = {
@@ -28,6 +28,11 @@ Menu.prototype = {
 	var highScoreValue_text = this.game.add.text(this.game.width/2, 80, highScore_value, score_style)
 	highScoreValue_text.anchor.set(0.5,0.5)
 
+	var score_button = this.game.add.text(this.game.width/2, 350, "HighScores", text_style)
+	score_button.anchor.set(0.5,0.5)
+	score_button.inputEnabled = true;
+	score_button.events.onInputDown.add(this.initScoreView, this);
+
 
 	var our_name = this.game.add.text(this.game.width/2, playBtn.y + 90, "The Planeteers", text_style);
 	our_name.anchor.set(0.5,0.5)
@@ -40,7 +45,12 @@ update: function() {
 },
 
 actionOnClick: function() {
-	game.state.start('game',Game);
+	this.game.state.start('game',Game);
+},
+
+initScoreView: function() {
+	console.log("starting HighScore!")
+	this.game.state.start('highscore',HighScore);
 }
 
 };

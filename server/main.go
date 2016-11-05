@@ -31,19 +31,24 @@ func PutData(w http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 		defer req.Body.Close()
-		scores := GetArray()
-		new_scores := make([]PlayerScore, 0)
-		for i, player := range scores.Scores {
-			if player.Score < play_score.Score {
-				new_scores = append(new_scores, play_score)
-				play_score = player
-			} else {
-				new_scores = append(new_scores, scores.Scores[i])
-			}
-		}
-		scores.Scores = new_scores
-		WriteToFile(scores)
+		go NewHighScores(play_score)
 	}
+}
+
+// function to handle updating new highscores
+func NewHighScores(play_score PlayerScore) {
+	scores := GetArray()
+	new_scores := make([]PlayerScore, 0)
+	for i, player := range scores.Scores {
+		if player.Score < play_score.Score {
+			new_scores = append(new_scores, play_score)
+			play_score = player
+		} else {
+			new_scores = append(new_scores, scores.Scores[i])
+		}
+	}
+	scores.Scores = new_scores
+	WriteToFile(scores)
 }
 
 // Convinence function to write data out to file

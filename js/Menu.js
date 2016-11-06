@@ -50,6 +50,9 @@ Menu.prototype = {
 	var our_name = this.game.add.text(mid_x, score_button.y + 90, "The Planeteers", text_style);
 	our_name.anchor.set(0.5,0.5)
 
+	var generic_copyright = this.game.add.text(mid_x, our_name.y + 80, "\u00A9 2016 GENERIC COMPANY LTD.\nALL RIGHTS RESERVED", score_style);
+	generic_copyright.anchor.set(0.5,0.5);
+
 	cursor_down = game.input.keyboard.addKey(Phaser.Keyboard.DOWN);
 	cursor_down.onDown.add(this.selectNextDown);
 	cursor_up = game.input.keyboard.addKey(Phaser.Keyboard.UP);

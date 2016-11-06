@@ -111,9 +111,11 @@ update: function() {
 				this.game.state.start('game', Game);
 				break;
 			case 1:
+				option_number = 0
 				this.game.state.start('highscore', HighScore);
 				break;
 			case 2:
+				option_number = 0
 				this.game.state.start('credit', Credit);
 				break;
 			default:

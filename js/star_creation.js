@@ -5,7 +5,7 @@ function create_star(game) {
 	emitter.minParticleScale = 0.01;
 	emitter.maxParticleScale = 0.2;
 	emitter.setYSpeed(250,500);
-	emitter.setXSpeed(-5,5);
+	emitter.setXSpeed(-2,2);
 	emitter.minRotation = 0;
 	emitter.maxRotation = 0;
 	emitter.start(false, 1600, 20, 0);

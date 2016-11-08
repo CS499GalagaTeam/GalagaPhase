@@ -47,7 +47,7 @@ HighScore.prototype = {
 
 		go_back = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 		go_back.onDown.add(function(){game.state.start("menu",Menu);});
-
+		create_star(game);
 	},
 
 

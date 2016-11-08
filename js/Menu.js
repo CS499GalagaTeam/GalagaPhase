@@ -6,6 +6,8 @@ Menu.prototype = {
  preload:function() {
 	game.load.spritesheet('play','./assets/images/play.png',128,64);
 	game.load.spritesheet('title','./assets/images/title.png');
+	game.load.image('star', './assets/images/star.png');
+	
 },
 
  create: function() {
@@ -59,6 +61,8 @@ Menu.prototype = {
 	cursor_up.onDown.add(this.selectNextUp);
 	choose_option = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	choose_option.onDown.add(this.chooseOption);
+	create_star(game);
+
 },
 
 update: function() {

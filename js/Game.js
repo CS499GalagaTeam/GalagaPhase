@@ -56,6 +56,8 @@ Game.prototype = {
 	shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
 	shootButton.onDown.add(this.shootFunction);
 	bullet.onFire.add(function(){pewpew.play()})
+	
+	create_star(game);
 
 },
 

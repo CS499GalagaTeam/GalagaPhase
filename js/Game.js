@@ -3,9 +3,9 @@ Game = function(game) {
 }
 
 
-Phaser.GameObjectFactory.prototype.enemy = function(x,y) {
+Phaser.GameObjectFactory.prototype.enemy = function(x, y, xPix, yPix) {
 
-	return this.game.add.existing(new Enemy(this.game,x,y) );
+	return this.game.add.existing(new Enemy(this.game,x,y,xPix, yPix) );
 }
 
 Game.prototype = {
@@ -72,7 +72,6 @@ Game.prototype = {
 	//create enemies
 	var timeCheck;
 	for (var i = 0; i < 5; i++) {
-
 		/*timeCheck = game.time.now;*/
 		// I have the enemy flying a path and then following the green pixel
 		// but it's currently not working because
@@ -80,9 +79,6 @@ Game.prototype = {
 		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i]));
 		//create another enemy object with opposite coordinates
 	}
-	
-	
-
 },
 
 update: function() {

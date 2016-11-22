@@ -16,7 +16,6 @@ Enemy.prototype.preload = function() {
 }
 
 Enemy.prototype.create = function() {
-
 		var enemySprites = ['enemy1','enemy2','enemy3'];
 		// enemy sprite and its animation
 		this.enemy = game.add.sprite(this.x,this.y,enemySprites[0]);
@@ -35,7 +34,6 @@ Enemy.prototype.create = function() {
 		
 		this.sideTween();
 		this.group1Path();
-		
 }
 
 

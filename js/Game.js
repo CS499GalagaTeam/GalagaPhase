@@ -1,11 +1,14 @@
 Game = function(game) {
 
+	this.timer = 0;
+	this.cycle = 1000;
+	this.cnt = 0;
+
 }
 
+Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
-Phaser.GameObjectFactory.prototype.enemy = function(x, y, xPix, yPix) {
-
-	return this.game.add.existing(new Enemy(this.game,x,y,xPix, yPix) );
+	return this.game.add.existing(new Enemy(this.game,x,y,xPix,yPix,enemyNum) );
 }
 
 Game.prototype = {
@@ -16,7 +19,7 @@ Game.prototype = {
 	game.load.image('bullet', './assets/images/bullet.png');
 	game.load.spritesheet('enemy1', './assets/images/enemy1.png',30,20);
 	game.load.spritesheet('enemy2', './assets/images/enemy2.png',30,20);
-	game.load.spritesheet('enemy3', './assets/images/enemy3.png',36,20);
+	game.load.spritesheet('enemy3', './assets/images/enemy3.png',36,32);
 	game.load.spritesheet('enemy3Hit', './assets/images/enemy3Hit.png',36,20);
 	game.load.image('explosion', './assets/images/explosion.png');
 	game.load.spritesheet('pixel','./assets/images/dot.png');
@@ -57,34 +60,125 @@ Game.prototype = {
 	bullet.onFire.add(function(){pewpew.play()});
 
 	enemies = game.add.group();
-	//enemies.classType = Enemy;
 	enemies.enableBody = true;
 
+	enemies2 = game.add.group();
+	enemies2.enableBody = true;
+
+	enemies3 = game.add.group();
+	enemies3.enableBody = true;
+
+	enemies4 = game.add.group();
+	enemies4.enableBody = true;
+
+	enemies5 = game.add.group();
+	enemies5.enableBody = true;
 
 
-	// locations for the first group of enemies to fly in
+	// locations for the groups of enemies to fly to
 	var group1PixelLocations = {
-		'x' : [game.width/2,game.width/2-30,game.width/2,game.width/2-30,game.width/2,game.width/2-30],
-		'y' : [(game.height/2)-30,(game.height/2)-60,(game.height/2)-90,(game.height/2)-120,(game.height/2)-150],
-		
+
+		'x' : [game.width/2,game.width/2-30,game.width/2,game.width/2-30,
+		game.width/2,game.width/2-30,game.width/2,game.width/2-30],
+		'y' : [(game.height/2)-30,(game.height/2)-30,(game.height/2)-60,(game.height/2)-60,
+		(game.height/2)-90,(game.height/2)-90,(game.height/2)-120,(game.height/2)-120],
+
+	};
+
+
+	var group2PixelLocations = {
+
+		'x': [(game.width/2)-60,(game.width/2)-60,(game.width/2)-60,(game.width/2)-30,
+		(game.width/2),(game.width/2)+30,(game.width/2)+30,(game.width/2)+30],
+		'y': [(game.height/2)-90,(game.height/2)-120,(game.height/2)-150,(game.height/2)-150,
+		(game.height/2)-150,(game.height/2)-150,(game.height/2)-120,(game.height/2)-90],
+
 	};
 	
+	var group3PixelLocations = {
+
+		'x':[(game.width/2)-90,(game.width/2)-90,(game.width/2)-120,(game.width/2)-120,
+		(game.width/2)+60,(game.width/2)+60,(game.width/2)+90,(game.width/2)+90],
+		'y':[(game.height/2)-90,(game.height/2)-120,(game.height/2)-120,(game.height/2)-90,
+		(game.height/2)-90,(game.height/2)-120,(game.height/2)-120,(game.height/2)-90],
+
+	};
+
+	var group4PixelLocations = {
+
+		'x':[(game.width/2)-60,(game.width/2)-60,(game.width/2)-90,(game.width/2)-90,
+		(game.width/2)+30,(game.width/2)+30,(game.width/2)+60,(game.width/2)+60],
+		'y':[(game.height/2)-30,(game.height/2)-60,(game.height/2)-60,(game.height/2)-30,
+		(game.height/2)-30,(game.height/2)-60,(game.height/2)-60,(game.height/2)-30],
+
+	};
+
+	var group5PixelLocations = {
+
+		'x':[(game.width/2)-120,(game.width/2)-120,(game.width/2)-150,(game.width/2)-150,
+		(game.width/2)+90,(game.width/2)+90,(game.width/2)+120,(game.width/2)+120],
+		'y':[(game.height/2)-30,(game.height/2)-60,(game.height/2)-60,(game.height/2)-30,
+		(game.height/2)-30,(game.height/2)-60,(game.height/2)-60,(game.height/2)-30],
+
+	};
+
+
+
+	//var timer = game.time.create(false);
 	//create enemies
-	var timeCheck;
-	for (var i = 0; i < 5; i++) {
-		/*timeCheck = game.time.now;*/
-		// I have the enemy flying a path and then following the green pixel
-		// but it's currently not working because
-		// the last two parameters are undefined when passed in
-		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i]));
+	for (var i = 0; i < 8; i = i+2) {	
+
+		if ( i == 0 || i == 1 || i == 2 || i == 3) {
+		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i],1));
 		//create another enemy object with opposite coordinates
+		enemies.create(game.add.enemy(game.width/4,0,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],1));
 	}
+		else {
+		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i],0));
+		//create another enemy object with opposite coordinates
+		enemies.create(game.add.enemy(game.width/4,0,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],0));
+		}
+	}
+	
+	// group 2
+	for (var i = 0; i < 8; i++) {	
+
+		if (i == 0 || i == 1 || i == 6 || i == 7)
+		enemies2.create(game.add.enemy(0,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],0));
+		else
+		enemies2.create(game.add.enemy(0,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],2));
+	}
+
+	//group 3 
+	for (var i = 0; i < 8; i++)
+		enemies3.create(game.add.enemy(800,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
+
+	for (var i = 0; i < 8; i++)
+		enemies4.create(game.add.enemy(game.width/2,0,group4PixelLocations.x[i],group4PixelLocations.y[i],1));
+
+	for (var i = 0; i < 8; i++)
+		enemies5.create(game.add.enemy(game.width/2,0,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
 },
 
 update: function() {
 
- 	this.playerMovement();	
+ 	this.playerMovement();
 
+ 	/*if (game.time.now > this.timer) {
+
+ 		this.timer = game.time.now + this.cycle;
+
+ 		var en = (Enemy)enemies.getAt(this.cnt);
+ 		en.group1Path();
+
+ 		this.cnt = this.cnt + 1;
+ 	}*/
+},
+
+createEnemy: function(x,y,px,py,enemyNum,x2,y2,px2,py2,enemyNum2) {
+
+	enemies.create(game.add.enemy(x,y,px,py,enemyNum));
+	enemies.create(game.add.enemy(x2,y2,px2,py2,enemyNum2));
 },
 
 playerMovement: function() {

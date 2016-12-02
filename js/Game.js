@@ -123,8 +123,8 @@ Game.prototype = {
 	};
 
 
+	//game.time.events.add(Phaser.Timer.SECOND * 4, fadePicture, this);
 
-	//var timer = game.time.create(false);
 	//create enemies
 	for (var i = 0; i < 8; i = i+2) {	
 
@@ -139,7 +139,9 @@ Game.prototype = {
 		enemies.create(game.add.enemy(game.width/4,0,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],0));
 		}
 	}
+
 	
+
 	// group 2
 	for (var i = 0; i < 8; i++) {	
 
@@ -152,12 +154,14 @@ Game.prototype = {
 	//group 3 
 	for (var i = 0; i < 8; i++)
 		enemies3.create(game.add.enemy(800,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
-
+	//group 4
 	for (var i = 0; i < 8; i++)
 		enemies4.create(game.add.enemy(game.width/2,0,group4PixelLocations.x[i],group4PixelLocations.y[i],1));
-
+	//group 5
 	for (var i = 0; i < 8; i++)
 		enemies5.create(game.add.enemy(game.width/2,0,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
+
+
 },
 
 update: function() {
@@ -173,12 +177,6 @@ update: function() {
 
  		this.cnt = this.cnt + 1;
  	}*/
-},
-
-createEnemy: function(x,y,px,py,enemyNum,x2,y2,px2,py2,enemyNum2) {
-
-	enemies.create(game.add.enemy(x,y,px,py,enemyNum));
-	enemies.create(game.add.enemy(x2,y2,px2,py2,enemyNum2));
 },
 
 playerMovement: function() {
@@ -197,6 +195,11 @@ playerMovement: function() {
 	else  {
 		//ship is idle
 	}
+},
+
+createEnemy: function() {
+
+
 },
 
 shootFunction: function() {

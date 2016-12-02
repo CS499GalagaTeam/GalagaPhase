@@ -7,11 +7,6 @@ var Enemy = function(game,x,y,xPix,yPix,enemyNum) {
 	this.yPix = yPix;
 	this.enemyNum = enemyNum;
 
-	this.timer = 0;
-	this.cycle = 1000;
-	this.cnt = 0;
-
-
 	this.create();
 	
 }
@@ -37,51 +32,70 @@ Enemy.prototype.create = function() {
 		//will be set to invisible
 		this.pixel = game.add.sprite(this.xPix,this.yPix,'pixel');
 		this.pixel.visible = false;
-		/*alert(this.xPix+ ' ' + this.yPix);*/
 
 		game.physics.arcade.enable(this.enemy);
 		game.physics.arcade.enable(this.pixel);	
 		
 
-		// call group1path with repeated timer
-
 
 		this.sideTween();
-		
-		this.group1Path();	
+
+
+		/* This runs as soon as the enemy is created
+		once completed, the enemies will begin to follow the 
+		pixels on the screen
+		  */
+		  // currently disabled
+		//this.group1Path();	
 }
 
-var completed = false;
+
+
+// complete will be set to true once group1Path is complete
+//var completed = false;
 Enemy.prototype.update = function() { 
 
 		if (!this.exists)	return;
-		//once the intro flight path is complete,
-		// the follow sequence begins
-		if (completed)
+
+		// when group1Path is completed, var compelete = true
+		// then enemy will follow the pixel 
+		//if (completed)
 		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
 }
 
 
 
-/*the path of pixel
+/*
+
+ the path of pixel
 moves back and forth
 represents the movement of enemy sprites
-while enemies are flying in*/
+while enemies are flying in
+
+*/
 
 Enemy.prototype.sideTween = function() {
 
+		// move pixel from xPix to (xPix + 200)
 		this.tween = game.add.tween(this.pixel).to({x: this.xPix + 200}, 2000, null,-1,true);
+		//moves pixel back and forth 
 		this.tween.yoyo(true,0,0);
+		//repeats the tween. -1 repeats the tween infinite times
 		this.tween.repeat(-1);
 		this.tween.start();
 
 }
 
+/*
+	once the group1Path tween is complete, this function
+	sets completed to true to begin the follow sequence
+*/
 Enemy.prototype.isComplete = function() {
+
 	completed = true;
 }
 
-/**/
+
 Enemy.prototype.expandTween = function() {
 
 
@@ -92,9 +106,11 @@ Enemy.prototype.group1Path = function() {
 
 	// reference point for x coordinate
 	var p = game.width/1.33;
+	// for y coordinate
 	var q = game.width/4
 	var pts;
 	
+	//the points for  the path that the first group takes
 	if (this.x > game.width/2) {
 
 	 pts = {
@@ -109,9 +125,10 @@ else {
 		'x': [q,q,q,q+50,q+130,q+110,q-110,q-110,q+30,q+90,q+180],
 		'y': [100,200,300,300,230,10,10,180,450,500,300],
 	}
+
 		//this.displayPath(pts);
 }
-
+	// path of the first group using the bezier path
 	this.tween = game.add.tween(this.enemy).to(
 	{
           x: [ pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5], 
@@ -131,6 +148,7 @@ else {
 }
 
 // This displays a visual of the enemy's path
+// using numbers as points
 Enemy.prototype.displayPath = function(pts) {
 	
 	var text;

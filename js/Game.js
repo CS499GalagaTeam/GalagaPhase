@@ -123,7 +123,7 @@ Game.prototype = {
 	};
 
 
-	//game.time.events.add(Phaser.Timer.SECOND * 4, fadePicture, this);
+	//game.time.events.add(Phaser.Timer.SECOND * 4, createEnemy, this);
 
 	//create enemies
 	for (var i = 0; i < 8; i = i+2) {	

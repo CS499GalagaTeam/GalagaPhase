@@ -41,11 +41,12 @@ Enemy.prototype.create = function() {
 		this.sideTween();
 
 
-		/* This runs as soon as the enemy is created
+		/* 
+		This runs as soon as the enemy is created
 		once completed, the enemies will begin to follow the 
 		pixels on the screen
 		  */
-		  // currently disabled
+		// currently disabled
 		//this.group1Path();	
 }
 
@@ -131,9 +132,9 @@ else {
 	// path of the first group using the bezier path
 	this.tween = game.add.tween(this.enemy).to(
 	{
-          x: [ pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5], 
+          x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5], 
          	pts.x[6],pts.x[7],pts.x[8],pts.x[9],pts.x[10] ],
-          y: [ pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5], 
+          y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5], 
           	pts.y[6],pts.y[7],pts.y[8],pts.y[9],pts.y[10] ],
     },
       2000,

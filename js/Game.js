@@ -145,10 +145,12 @@ Game.prototype = {
 	// group 2
 	for (var i = 0; i < 8; i++) {	
 
+
 		if (i == 0 || i == 1 || i == 6 || i == 7)
 		enemies2.create(game.add.enemy(0,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],0));
 		else
 		enemies2.create(game.add.enemy(0,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],2));
+
 	}
 
 	//group 3 

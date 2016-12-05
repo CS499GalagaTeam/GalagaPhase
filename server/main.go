@@ -103,6 +103,7 @@ func GetData(w http.ResponseWriter, req *http.Request) {
 }
 
 func main() {
+	http.Handle("/", http.FileServer(http.Dir("../")))
 	http.HandleFunc("/getData", GetData)
 	http.HandleFunc("/putData", PutData)
 	http.ListenAndServe(":8080", nil)

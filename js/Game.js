@@ -50,7 +50,7 @@ Game.prototype = {
 
     //  Tell the bullet to track the 'player' Sprite, offset by 16px horizontally, 0 vertically
     bullet.trackSprite(player, 16, 0);
-
+    
 
     
 	//enabling keyboard use

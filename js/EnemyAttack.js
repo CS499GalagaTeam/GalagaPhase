@@ -1,13 +1,3 @@
-function generate_attack_flight(enemy, points, callback) {
-  tween = game.add.tween(enemy);
-    tween.to(points, 2000, Phaser.Easing.Quadratic.InOut, true)
-    .interpolation(function(v, k) {
-        console.log("v "+v+" k "+k);
-      return Phaser.Math.bezierInterpolation(v, k);
-    });
-  tween.onStart.add(callback);
-  return tween;
-}
 
 function generate_points_from_enemy(enemy_num, group_num) {
 
@@ -59,10 +49,4 @@ function generate_points_from_enemy(enemy_num, group_num) {
                 break;
             }
         }
-}
-
-function generate_attacks(enemy, enemy_num, group_num, callback) {
-    //enemy.completed = false;
-  var points = generate_points_from_enemy(enemy_num, group_num);
-  return generate_attack_flight(enemy, points, callback);
 }

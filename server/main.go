@@ -31,7 +31,7 @@ func PutData(w http.ResponseWriter, req *http.Request) {
 			log.Fatal(err)
 		}
 		defer req.Body.Close()
-		go NewHighScores(play_score)
+		NewHighScores(play_score)
 	}
 }
 

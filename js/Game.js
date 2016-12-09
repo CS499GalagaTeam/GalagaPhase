@@ -93,9 +93,9 @@ Game.prototype.create = function() {
   keys = game.input.keyboard.createCursorKeys();
   shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
   shootButton.onDown.add(this.shootFunction);
-  bullet.onFire.add(function() {
-    pewpew.play()
-  });
+//  bullet.onFire.add(function() {
+  //  pewpew.play()
+  //});
 
   enemies = game.add.group();
   enemies.enableBody = true;

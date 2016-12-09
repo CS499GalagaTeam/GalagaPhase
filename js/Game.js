@@ -177,3 +177,4 @@ Game.prototype = {
 
   return aliveArray;
 };
+}

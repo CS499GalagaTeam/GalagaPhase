@@ -8,6 +8,9 @@ var Enemy = function(game,x,y,xPix,yPix,enemyNum) {
 	this.enemyNum = enemyNum;
 	this.completed1 = false;
 	this.completed2 = false;
+	this.completed3 = false;
+	this.completed4 = false;
+	this.completed5 = false;
 
 	this.create();
 	
@@ -33,7 +36,7 @@ Enemy.prototype.create = function() {
 		//This will be tracked by the enemy sprite
 		//will be set to invisible
 		this.pixel = game.add.sprite(this.xPix,this.yPix,'pixel');
-		this.pixel.visible = false;
+		//this.pixel.visible = false;
 
 		game.physics.arcade.enable(this.enemy);
 		game.physics.arcade.enable(this.pixel);	
@@ -67,6 +70,15 @@ Enemy.prototype.update = function() {
 
 		if (this.completed2)
 		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed3)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed4)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed5)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
 }
 
 
@@ -97,21 +109,25 @@ Enemy.prototype.sideTween = function() {
 	sets completed to true to begin the follow sequence
 */
 Enemy.prototype.oneIsComplete = function() {
-
 	this.completed1 = true;
 }
 
 Enemy.prototype.twoIsComplete = function() {
-
 	this.completed2 = true;
-
 }
 
-
-Enemy.prototype.expandTween = function() {
-
-
+Enemy.prototype.threeIsComplete = function() {
+	this.completed3 = true;
 }
+
+Enemy.prototype.fourIsComplete = function() {
+	this.completed4 = true;
+}
+
+Enemy.prototype.fiveIsComplete = function() {
+	this.completed5 = true;
+}
+
 
 //path of the first group
 
@@ -127,6 +143,7 @@ Enemy.prototype.group1Path = function() {
 	if (this.x > game.width/2) {
 
 	 pts = {
+
 		'x': [p,p,p,p-50,p-130,p-110,p+110,p+110,p-30,p-90,p-200],
 		'y': [100,200,300,300,230,10,10,180,450,500,300],
 
@@ -161,12 +178,45 @@ else {
 }
 
 
-Enemy.prototype.group2Path = function(pts) {
+Enemy.prototype.group2Path = function() {
+
+
+	pts = {
+		'x': [100,300,300,0,0,150,game.width/2],
+		'y': [500,400,200,200,400,500,450], 
+	}
 
 	this.tween = game.add.tween(this.enemy).to(
 	{
-		x: [100,200,300],
-		y: [100,200,300],
+		x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5],pts.x[6]],
+		y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5],pts.y[6]],
+
+	},
+	1500,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	
+
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.twoIsComplete,this);
+
+}
+
+Enemy.prototype.group3Path = function() {
+
+	pts = {
+
+		'x': [game.width-100,game.width-300,game.width-300,game.width-10,game.width-10,game.width-150,game.width/2],
+		'y': [500,400,200,200,400,500,450],
+		
+	}
+
+	this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5],pts.x[6]],
+		y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5],pts.y[6]],
 
 	},
 	2000,
@@ -175,7 +225,49 @@ Enemy.prototype.group2Path = function(pts) {
 		return Phaser.Math.bezierInterpolation(v,k);
 	});
 	
-	this.tween.onComplete.add(this.twoIsComplete,this);
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.threeIsComplete,this);
+
+}
+
+Enemy.prototype.group4Path = function() {
+
+	pts = {
+		'x':[game.width/2-200,game.width/2-200,game.width/2-50],
+		'y':[game.height-300,game.height-300,game.height-200 ],
+	}
+
+	this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [pts.x[0],pts.x[1],pts.x[2]],
+		y: [pts.y[0],pts.y[1],pts.y[2]],
+
+	},
+	2000,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.fourIsComplete,this);
+}
+
+Enemy.prototype.group5Path = function() {
+
+
+this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [game.width/2+200,game.width/2+200,game.width/2+50],
+		y: [game.height-300,game.height-300,game.height-200],
+
+	},
+	2000,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.fiveIsComplete,this);
 
 }
 

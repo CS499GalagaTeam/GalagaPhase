@@ -19,11 +19,15 @@ Game.prototype = {
     game.load.image('explosion', './assets/images/explosion.png');
     game.load.spritesheet('pixel', './assets/images/dot.png');
     game.load.audio('pewpew', './assets/sounds/pewpew.wav');
+    game.load.audio('enemyDeath', './assets/sounds/enemy1death.wav');
+    game.load.audio('galagaDeath', './assets/sounds/explosion.wav');
   },
 
   create: function() {
     game.physics.startSystem(Phaser.Physics.ARCADE);
     pewpew = game.add.audio('pewpew');
+    enemyDeath = game.add.audio('enemyDeath');
+    galagaDeath = game.add.audio('galagaDeath');
 
     //creates player
     player = game.add.sprite(0.45 * 600, 600 - 50, 'galaga');
@@ -142,6 +146,11 @@ Game.prototype = {
 
   update: function() {
     this.playerMovement();
+
+    enemyGroups.forEach(function(group) {
+      game.physics.arcade.overlap(bullets, group, collisionHander, null, this);
+    });
+    game.physics.arcade.overlap(enemyBullets, player, enemyHitsPlayer, null, this);
   },
 
   playerMovement: function() {
@@ -176,4 +185,25 @@ Game.prototype = {
   });
 
   return aliveArray;
-};
+},
+
+  collisionHander: function(bullet, badGuy) {
+    bullet.kill();
+    badGuy.kill();
+
+    //TODO: Score
+    //TODO: explosion image
+    enemyDeath.play();
+  },
+
+  enemyHitsPlayer: function(player, bullet) {
+    bullet.kill();
+
+    //TODO: add life tracking and shit.
+    player.kill();
+    //TODO: explosion imag
+    galagaDeath.play();
+    stateText.text = "Game Over....";
+    stateText.visible = true;
+    }
+}

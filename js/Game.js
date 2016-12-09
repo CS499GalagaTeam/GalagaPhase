@@ -43,21 +43,18 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
   Game.prototype.create = function() {
 
-	game.physics.startSystem(Phaser.Physics.ARCADE);
-	pewpew = game.add.audio('pewpew');
+    //creates player
+    player = game.add.sprite(0.45 * 600, 600 - 50, 'galaga');
+    game.physics.arcade.enable(player);
 
-	//creates player
-	player = game.add.sprite(0.45*600,600-50,'galaga');
-	game.physics.arcade.enable(player);
+    // allows player to fire 2 bullets
+    bullet = game.add.weapon(2, 'bullet');
 
-	// allows player to fire 2 bullets
-	bullet = game.add.weapon(2,'bullet');
+    // when bullet leaves the screen, it will be destroyed
+    bullet.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
 
-	// when bullet leaves the screen, it will be destroyed
-	bullet.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
-
-	//offset rotation:
-	bullet.bulletAngleOffset = 90;
+    //offset rotation:
+    bullet.bulletAngleOffset = 90;
 
     //  The speed at which the bullet is fired
     bullet.bulletSpeed = 400;
@@ -239,8 +236,9 @@ Game.prototype.update = function() {
 
 Game.prototype.playerMovement = function() {
 
-	// Reset the players velocity (movement)
-	player.body.velocity.x = 0;
+    // Reset the players velocity (movement)
+    player.body.velocity.x = 0;
+
 
 	if (keys.left.isDown) {
 		// Move to the left
@@ -272,3 +270,15 @@ Game.prototype.shootFunction = function() {
 	bullet.fire();
 }
 
+game.prototype.enemyToFlyIn = function() {
+    var aliveArray = [];
+
+    this.enemyGroups.forEach(function(group) {
+      group.forEachAlive(function(enemy) {
+        var r = Math.floor((Math.random() * 3) + 1);
+        if( r % 3 === 0) aliveArray.push(enemy);
+      });
+  });
+
+  return aliveArray;
+}

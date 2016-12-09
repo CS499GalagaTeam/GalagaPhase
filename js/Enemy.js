@@ -138,7 +138,7 @@ Enemy.prototype.group1Path = function() {
 	// for y coordinate
 	var q = game.width/4
 	var pts;
-	
+
 	//the points for  the path that the first group takes
 	if (this.x > game.width/2) {
 
@@ -161,9 +161,9 @@ else {
 	// path of the first group using the bezier path
 	this.tween = game.add.tween(this.enemy).to(
 	{
-          x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5], 
+          x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5],
          	pts.x[6],pts.x[7],pts.x[8],pts.x[9],pts.x[10] ],
-          y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5], 
+          y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5],
           	pts.y[6],pts.y[7],pts.y[8],pts.y[9],pts.y[10] ],
     },
       2000,
@@ -183,7 +183,7 @@ Enemy.prototype.group2Path = function() {
 
 	pts = {
 		'x': [100,300,300,0,0,150,game.width/2],
-		'y': [500,400,200,200,400,500,450], 
+		'y': [500,400,200,200,400,500,450],
 	}
 
 	this.tween = game.add.tween(this.enemy).to(
@@ -197,14 +197,14 @@ Enemy.prototype.group2Path = function() {
 	true,0,0).interpolation(function(v,k) {
 		return Phaser.Math.bezierInterpolation(v,k);
 	});
-	
+
 
 	//this.displayPath(pts);
 	this.tween.onComplete.add(this.twoIsComplete,this);
 
 }
 
-Enemy.prototype.flyAttack = function(enemy_num, callback){
+Enemy.prototype.flyAttack = function(callback){
   //generate_points_from_enemy(/*(Math.random()*4)+*/1, /*(Math.random()*5)+*/1 )
   var points = generate_points_from_enemy(Math.floor((Math.random()*8)+1),1);
   //this.displayPath(points);
@@ -213,7 +213,9 @@ Enemy.prototype.flyAttack = function(enemy_num, callback){
     .interpolation(function(v, k) {
       return Phaser.Math.bezierInterpolation(v, k);
     });
-//  tween_n.onStart.add(callback);
+    if (callback != undefined) {
+      tween_n.onStart.add(callback);
+    }
   //tween_n.start();
 }
 Enemy.prototype.group3Path = function() {
@@ -222,7 +224,7 @@ Enemy.prototype.group3Path = function() {
 
 		'x': [game.width-100,game.width-300,game.width-300,game.width-10,game.width-10,game.width-150,game.width/2],
 		'y': [500,400,200,200,400,500,450],
-		
+
 	}
 
 	this.tween = game.add.tween(this.enemy).to(
@@ -236,7 +238,7 @@ Enemy.prototype.group3Path = function() {
 	true,0,0).interpolation(function(v,k) {
 		return Phaser.Math.bezierInterpolation(v,k);
 	});
-	
+
 	//this.displayPath(pts);
 	this.tween.onComplete.add(this.threeIsComplete,this);
 

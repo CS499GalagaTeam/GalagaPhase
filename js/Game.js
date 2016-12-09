@@ -24,6 +24,7 @@ var startTime;
 var endTime;
 var timeDiff;
 var seconds;
+fly_the_thing = false;
 
 
 Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
@@ -111,6 +112,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	enemies5.enableBody = true;
 
 	//game.physics.arcade.enable(enemies);
+
 
 
 	// locations for the groups of enemies to fly to
@@ -264,6 +266,17 @@ Game.prototype.update = function() {
 
  	this.playerMovement();
 
+		if (group5EntranceComplete && !fly_the_thing) {
+			setInterval(function(){
+				var c_arr = enemyToFlyIn()
+				var num_t = Math.floor((Math.random()*c_arr.length)+1);
+				var en = c_arr[num_t];
+				if (en != undefined) {
+					en.flyAttack(function(){});
+				}
+			}, 2000);
+			fly_the_thing = true;
+		}
 
 
  	if (!group1EntranceComplete) {
@@ -341,6 +354,8 @@ Game.prototype.update = function() {
 
     }
 
+
+
 bullet.bullets.children.forEach(function(bu){
  that_g_array.forEach(function(enms){
 	 enms.forEach(function(enm){
@@ -349,6 +364,12 @@ bullet.bullets.children.forEach(function(bu){
 
  })
  })
+
+ that_g_array.forEach(function(enms){
+enms.forEach(function(enm){
+	 game.physics.arcade.overlap(player, enm.getEnemy(), player_hit);
+ });
+ });
 	//G1.forEach(function(enm){
 		// if (game.physics.arcade.collide(bullet, enemies, this.collisionHandler)) {
 		//
@@ -364,6 +385,24 @@ var collisionHandler = function(bu, en) {
 	en.kill();
 	currentScore += 20
 	score_text.setText("SCORE: "+currentScore);
+}
+
+var player_hit = function(pl, en) {
+	pl.kill();
+
+	var score_style = {
+		font: "20px Arial",
+		fill: "#ff0000",
+		align: "center"
+	};
+	var mid_x = game.width / 2;
+	var mid_y = game.height / 2;
+
+	game_over_text = game.add.text(mid_x, mid_y, "GAME OVER" , score_style);
+	game_over_text.anchor.set(0.5, 0.5);
+	setTimeout(function(){
+		game.state.start("credit",Credit)
+	},5000);
 }
 
 Game.prototype.processHandler = function(bu, en) {
@@ -422,14 +461,15 @@ Game.prototype.shootFunction = function() {
 	bullet.fire();
 }
 
-Game.prototype.enemyToFlyIn = function() {
+var enemyToFlyIn = function() {
     var aliveArray = [];
 
-    this.enemyGroups.forEach(function(group) {
-      group.forEachAlive(function(enemy) {
-        var r = Math.floor((Math.random() * 3) + 1);
-        if( r % 3 === 0) aliveArray.push(enemy);
-      });
+    that_g_array.forEach(function(group) {
+			group.forEach(function(enemy){
+
+        var r = Math.floor((Math.random() * 100) + 1);
+        if( r % 10 === 0) aliveArray.push(enemy);
+			});
   });
 
   return aliveArray;

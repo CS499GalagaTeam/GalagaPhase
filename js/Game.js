@@ -169,14 +169,14 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	for (var i = 0; i < 8; i = i+2) {
 
 		if ( i == 0 || i == 1 || i == 2 || i == 3) {
-		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i],1));
+		enemies.create(game.add.enemy(game.width/1.33,-30,group1PixelLocations.x[i],group1PixelLocations.y[i],1));
 		//create another enemy object with opposite coordinates
-		enemies.create(game.add.enemy(game.width/4,0,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],1));
+		enemies.create(game.add.enemy(game.width/4,-30,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],1));
 	}
 		else {
-		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i],0));
+		enemies.create(game.add.enemy(game.width/1.33,-30,group1PixelLocations.x[i],group1PixelLocations.y[i],0));
 		//create another enemy object with opposite coordinates
-		enemies.create(game.add.enemy(game.width/4,0,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],0));
+		enemies.create(game.add.enemy(game.width/4,-30,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],0));
 		}
 	}
 	G1 = currentEnemies;
@@ -193,9 +193,9 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 
 		if (i == 0 || i == 1 || i == 6 || i == 7)
-		enemies2.create(game.add.enemy(0,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],0));
+		enemies2.create(game.add.enemy(-30,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],0));
 		else
-		enemies2.create(game.add.enemy(0,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],2));
+		enemies2.create(game.add.enemy(-30,game.height-100,group2PixelLocations.x[i],group2PixelLocations.y[i],2));
 
 	}
 
@@ -208,7 +208,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 	//group 3
 	for (var i = 0; i < 8; i++){
-		enemies3.create(game.add.enemy(800,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
+		enemies3.create(game.add.enemy(830,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
 		console.log(i);
 	}
 
@@ -219,7 +219,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 	//group 4
 	for (var i = 0; i < 8; i++){
-		enemies4.create(game.add.enemy(game.width/2-30,0,group4PixelLocations.x[i],group4PixelLocations.y[i],1));
+		enemies4.create(game.add.enemy(game.width/2-30,-30,group4PixelLocations.x[i],group4PixelLocations.y[i],1));
 	}
 
 	G4 = currentEnemies;
@@ -228,7 +228,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 	//group 5
 	for (var i = 0; i < 8; i++){
-		enemies5.create(game.add.enemy(game.width/2+30,0,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
+		enemies5.create(game.add.enemy(game.width/2+30,-30,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
 	}
 
 	G5 = currentEnemies;
@@ -236,7 +236,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 	that_g_array = [G1, G2, G3, G4, G5];
 
-
+create_star(game);
 startTime = new Date().getTime();
 
 //game.time.events.add(100, this.createEnemy(), this);
@@ -255,6 +255,7 @@ setInterval(function() {
     seconds = Math.round(timeDiff % 60);
     console.log(seconds);
 }, 1000);
+
 
 }
 
@@ -414,7 +415,7 @@ Game.prototype.flightEntrance4 = function(c) {
 
 Game.prototype.flightEntrance5 = function(c) {
 	G5[c].group5Path();
-	entranceTimer = game.time.now + 50;
+	entranceTimer = game.time.now + 1000;
 }
 
 Game.prototype.shootFunction = function() {
@@ -447,4 +448,17 @@ Game.prototype.gameTime = function() {
     // get seconds
     seconds = Math.round(timeDiff % 60);
     alert(seconds);
+}
+
+Game.prototype.create_star = function(game) {
+  var emitter = game.add.emitter(game.world.centerX, 0, 400);
+  emitter.width = game.width;
+  emitter.makeParticles('star');
+  emitter.minParticleScale = 0.01;
+  emitter.maxParticleScale = 0.2;
+  emitter.setYSpeed(250, 500);
+  emitter.setXSpeed(-2, 2);
+  emitter.minRotation = 0;
+  emitter.maxRotation = 0;
+  emitter.start(false, 1600, 20, 0);
 }

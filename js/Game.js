@@ -10,6 +10,8 @@ var G4 = [];
 var G5 = [];
 var currentEnemies = [];
 
+var currentScore = 0;
+
 
 
 var cnt = 0;
@@ -47,10 +49,13 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 			pewpew = game.add.audio('pewpew');
     //creates player
     player = game.add.sprite(0.45 * 600, 600 - 50, 'galaga');
-    game.physics.arcade.enable(player);
+    game.physics.enable(player);
 
     // allows player to fire 2 bullets
     bullet = game.add.weapon(2, 'bullet');
+bullet.bullets.enableBody = true;
+		game.physics.enable(bullet.bullets, Phaser.Physics.ARCADE);
+
 
     // when bullet leaves the screen, it will be destroyed
     bullet.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
@@ -74,6 +79,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 	enemies = game.add.group();
 	enemies.enableBody = true;
+	enemies.enableBodyType = Phaser.Physics.ARCADE;
 
 	enemies2 = game.add.group();
 	enemies2.enableBody = true;
@@ -86,6 +92,8 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 	enemies5 = game.add.group();
 	enemies5.enableBody = true;
+
+	//game.physics.arcade.enable(enemies);
 
 
 	// locations for the groups of enemies to fly to
@@ -177,8 +185,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	G2 = currentEnemies;
 	currentEnemies = [];
 
-
-
+//game.physics.arcade.overlap(bullet, enemies, null,this)
 /*
 	//group 3
 	for (var i = 0; i < 8; i++)
@@ -234,7 +241,29 @@ Game.prototype.update = function() {
     	}
     }
 
+bullet.bullets.children.forEach(function(bu){
+ G1.forEach(function(enm){
+	 game.physics.arcade.overlap(bu, enm.getEnemy(), collisionHandler);
+ })
+ })
+	//G1.forEach(function(enm){
+		// if (game.physics.arcade.collide(bullet, enemies, this.collisionHandler)) {
+		//
+		// 				console.log("YEAH!")
+		// }
+	//})
 
+
+
+}
+var collisionHandler = function(bu, en) {
+	bu.kill();
+	en.kill();
+	currentScore += 20
+}
+
+Game.prototype.processHandler = function(bu, en) {
+	return true;
 }
 
 Game.prototype.playerMovement = function() {
@@ -250,7 +279,7 @@ Game.prototype.playerMovement = function() {
 	else if (keys.right.isDown) {
 		// Move to the right
 		player.body.velocity.x = 150;
-		G2[0].flyAttack(function(){});
+		//G2[0].flyAttack(function(){});
 	}
 	else  {
 		//ship is idle
@@ -274,7 +303,7 @@ Game.prototype.shootFunction = function() {
 	bullet.fire();
 }
 
-game.prototype.enemyToFlyIn = function() {
+Game.prototype.enemyToFlyIn = function() {
     var aliveArray = [];
 
     this.enemyGroups.forEach(function(group) {

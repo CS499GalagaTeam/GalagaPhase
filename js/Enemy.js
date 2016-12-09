@@ -33,8 +33,9 @@ Enemy.prototype.create = function() {
   this.pixel = game.add.sprite(this.xPix, this.yPix, 'pixel');
   this.pixel.visible = false;
 
-  game.physics.arcade.enable(this.enemy);
+  game.physics.arcade.enable(this.enemy, Phaser.Physics.ARCADE);
   game.physics.arcade.enable(this.pixel);
+  game.physics.arcade.enable(this, Phaser.Physics.ARCADE);
 
 
 
@@ -203,5 +204,10 @@ Enemy.prototype.displayPath = function(pts) {
 
   for (var i = 0; i < pts.x.length; i++)
     text = game.add.text(pts.x[i], pts.y[i], i, style);
+
+}
+
+Enemy.prototype.getEnemy = function () {
+  return this.enemy;
 
 }

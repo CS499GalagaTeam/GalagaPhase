@@ -41,8 +41,8 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	game.load.image('bullet', './assets/images/bullet.png');
 	game.load.spritesheet('enemy1', './assets/images/enemy1.png',30,20);
 	game.load.spritesheet('enemy2', './assets/images/enemy2.png',30,20);
-	game.load.spritesheet('enemy3', './assets/images/enemy3.png',36,32);
-	game.load.spritesheet('enemy3Hit', './assets/images/enemy3Hit.png',36,32);
+	game.load.spritesheet('enemy3', './assets/images/enemy3.png',33,32);
+	game.load.spritesheet('enemy3Hit', './assets/images/enemy3Hit.png',33,32);
 	game.load.image('explosion', './assets/images/explosion.png');
 	game.load.spritesheet('pixel','./assets/images/dot.png');
 	game.load.audio('pewpew', './assets/sounds/pewpew.wav');

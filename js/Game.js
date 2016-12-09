@@ -1,20 +1,15 @@
 Game = function(game) {
-
   this.timer = 0;
   this.cycle = 1000;
   this.cnt = 0;
-
 }
 
 Phaser.GameObjectFactory.prototype.enemy = function(x, y, xPix, yPix, enemyNum) {
-
   return this.game.add.existing(new Enemy(this.game, x, y, xPix, yPix, enemyNum));
 }
 
 Game.prototype = {
-
   preload: function() {
-
     game.load.image('galaga', './assets/images/galaga.png');
     game.load.image('bullet', './assets/images/bullet.png');
     game.load.spritesheet('enemy1', './assets/images/enemy1.png', 30, 20);
@@ -24,11 +19,9 @@ Game.prototype = {
     game.load.image('explosion', './assets/images/explosion.png');
     game.load.spritesheet('pixel', './assets/images/dot.png');
     game.load.audio('pewpew', './assets/sounds/pewpew.wav');
-
   },
 
   create: function() {
-
     game.physics.startSystem(Phaser.Physics.ARCADE);
     pewpew = game.add.audio('pewpew');
 
@@ -50,8 +43,6 @@ Game.prototype = {
 
     //  Tell the bullet to track the 'player' Sprite, offset by 16px horizontally, 0 vertically
     bullet.trackSprite(player, 16, 0);
-
-
 
     //enabling keyboard use
     keys = game.input.keyboard.createCursorKeys();
@@ -76,54 +67,43 @@ Game.prototype = {
     enemies5 = game.add.group();
     enemies5.enableBody = true;
 
+    enemyGroups = [enemies, enemies2, enemies3, enemies4, enemies5];
 
     // locations for the groups of enemies to fly to
     var group1PixelLocations = {
-
       'x': [game.width / 2, game.width / 2 - 30, game.width / 2, game.width / 2 - 30,
         game.width / 2, game.width / 2 - 30, game.width / 2, game.width / 2 - 30],
       'y': [(game.height / 2) - 30, (game.height / 2) - 30, (game.height / 2) - 60, (game.height / 2) - 60,
         (game.height / 2) - 90, (game.height / 2) - 90, (game.height / 2) - 120, (game.height / 2) - 120],
-
     };
 
-
     var group2PixelLocations = {
-
       'x': [(game.width / 2) - 60, (game.width / 2) - 60, (game.width / 2) - 60, (game.width / 2) - 30,
         (game.width / 2), (game.width / 2) + 30, (game.width / 2) + 30, (game.width / 2) + 30],
       'y': [(game.height / 2) - 90, (game.height / 2) - 120, (game.height / 2) - 150, (game.height / 2) - 150,
         (game.height / 2) - 150, (game.height / 2) - 150, (game.height / 2) - 120, (game.height / 2) - 90],
-
     };
 
     var group3PixelLocations = {
-
       'x': [(game.width / 2) - 90, (game.width / 2) - 90, (game.width / 2) - 120, (game.width / 2) - 120,
         (game.width / 2) + 60, (game.width / 2) + 60, (game.width / 2) + 90, (game.width / 2) + 90],
       'y': [(game.height / 2) - 90, (game.height / 2) - 120, (game.height / 2) - 120, (game.height / 2) - 90,
         (game.height / 2) - 90, (game.height / 2) - 120, (game.height / 2) - 120, (game.height / 2) - 90],
-
     };
 
     var group4PixelLocations = {
-
       'x': [(game.width / 2) - 60, (game.width / 2) - 60, (game.width / 2) - 90, (game.width / 2) - 90,
         (game.width / 2) + 30, (game.width / 2) + 30, (game.width / 2) + 60, (game.width / 2) + 60],
       'y': [(game.height / 2) - 30, (game.height / 2) - 60, (game.height / 2) - 60, (game.height / 2) - 30,
         (game.height / 2) - 30, (game.height / 2) - 60, (game.height / 2) - 60, (game.height / 2) - 30],
-
     };
 
     var group5PixelLocations = {
-
       'x': [(game.width / 2) - 120, (game.width / 2) - 120, (game.width / 2) - 150, (game.width / 2) - 150,
         (game.width / 2) + 90, (game.width / 2) + 90, (game.width / 2) + 120, (game.width / 2) + 120],
       'y': [(game.height / 2) - 30, (game.height / 2) - 60, (game.height / 2) - 60, (game.height / 2) - 30,
         (game.height / 2) - 30, (game.height / 2) - 60, (game.height / 2) - 60, (game.height / 2) - 30],
-
     };
-
 
     //game.time.events.add(Phaser.Timer.SECOND * 4, createEnemy, this);
 
@@ -141,20 +121,15 @@ Game.prototype = {
       }
     }
 
-
-
     // group 2
     for (var i = 0; i < 8; i++) {
-
-
       if (i == 0 || i == 1 || i == 6 || i == 7)
         enemies2.create(game.add.enemy(0, game.height - 100, group2PixelLocations.x[i], group2PixelLocations.y[i], 0));
       else
         enemies2.create(game.add.enemy(0, game.height - 100, group2PixelLocations.x[i], group2PixelLocations.y[i], 2));
-
     }
 
-    //group 3 
+    //group 3
     for (var i = 0; i < 8; i++)
       enemies3.create(game.add.enemy(800, game.height - 100, group3PixelLocations.x[i], group3PixelLocations.y[i], 0));
     //group 4
@@ -163,27 +138,13 @@ Game.prototype = {
     //group 5
     for (var i = 0; i < 8; i++)
       enemies5.create(game.add.enemy(game.width / 2, 0, group5PixelLocations.x[i], group5PixelLocations.y[i], 1));
-
-
   },
 
   update: function() {
-
     this.playerMovement();
-
-  /*if (game.time.now > this.timer) {
-
-  	this.timer = game.time.now + this.cycle;
-
-  	var en = (Enemy)enemies.getAt(this.cnt);
-  	en.group1Path();
-
-  	this.cnt = this.cnt + 1;
-  }*/
   },
 
   playerMovement: function() {
-
     // Reset the players velocity (movement)
     player.body.velocity.x = 0;
 
@@ -202,6 +163,17 @@ Game.prototype = {
 
   shootFunction: function() {
     bullet.fire()
-  }
+  },
 
+  enemyToFlyIn: function() {
+    var aliveArray = [];
+
+    this.enemyGroups.forEach(function(group) {
+      group.forEachAlive(function(enemy) {
+        var r = Math.floor((Math.random() * 3) + 1);
+        if( r % 3 === 0) aliveArray.push(enemy);
+      });
+  });
+
+  return aliveArray;
 };

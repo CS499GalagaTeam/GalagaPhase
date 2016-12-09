@@ -176,5 +176,5 @@ Game.prototype = {
   });
 
   return aliveArray;
-};
+}
 }

@@ -17,7 +17,13 @@ var currentScore = 0;
 var cnt = 0;
 var group1EntranceComplete = false;
 var group2EntranceComplete = false;
-//var mainTime = 0;
+var group3EntranceComplete = false;
+var group4EntranceComplete = false;
+var group5EntranceComplete = false;
+var startTime;
+var endTime;
+var timeDiff;
+var seconds;
 
 
 Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
@@ -197,30 +203,66 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	currentEnemies = [];
 
 
-	that_g_array = [G1, G2];
+
 //game.physics.arcade.overlap(bullet, enemies, null,this)
-/*
+
 	//group 3
-	for (var i = 0; i < 8; i++)
+	for (var i = 0; i < 8; i++){
 		enemies3.create(game.add.enemy(800,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
+		console.log(i);
+	}
+
+	G3 = currentEnemies;
+	currentEnemies = [];
+
+
+
 	//group 4
-	for (var i = 0; i < 8; i++)
-		enemies4.create(game.add.enemy(game.width/2,0,group4PixelLocations.x[i],group4PixelLocations.y[i],1));
+	for (var i = 0; i < 8; i++){
+		enemies4.create(game.add.enemy(game.width/2-30,0,group4PixelLocations.x[i],group4PixelLocations.y[i],1));
+	}
+
+	G4 = currentEnemies;
+	currentEnemies = [];
+
+
 	//group 5
-	for (var i = 0; i < 8; i++)
-		enemies5.create(game.add.enemy(game.width/2,0,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
+	for (var i = 0; i < 8; i++){
+		enemies5.create(game.add.enemy(game.width/2+30,0,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
+	}
+
+	G5 = currentEnemies;
+	currentEnemies = [];
+
+	that_g_array = [G1, G2, G3, G4, G5];
 
 
-*/
+startTime = new Date().getTime();
 
 //game.time.events.add(100, this.createEnemy(), this);
 //mainTime = game.time.now + 10000;
+setInterval(function() {
+    // later record end time
+    endTime = new Date().getTime();
+
+    // time difference in ms
+    timeDiff = endTime - startTime;
+
+    // strip the miliseconds
+    timeDiff /= 1000;
+
+    // get seconds
+    seconds = Math.round(timeDiff % 60);
+    console.log(seconds);
+}, 1000);
+
 }
 
 
 Game.prototype.update = function() {
 
  	this.playerMovement();
+
 
 
  	if (!group1EntranceComplete) {
@@ -239,19 +281,63 @@ Game.prototype.update = function() {
         }
     }
 
-    if(!group2EntranceComplete && game.time.totalElapsedSeconds() > 4) {
-
-
+    if (!group2EntranceComplete && seconds > 4) {
     	if (cnt < G2.length) {
     		this.flightEntrance2(cnt);
     		cnt++;
     	}
-    	if (cnt > G2.length) {
+    	if (cnt >= G2.length) {
     		currentEnemies = [];
     		entranceTimer = 0;
     		cnt = 0;
     		group2EntranceComplete = true;
     	}
+    }
+   if (!group3EntranceComplete && seconds > 8) {
+    	if (cnt < G3.length) {
+    	this.flightEntrance3(cnt);
+    	cnt++;
+    	}
+    	if (cnt >= G3.length) {
+    		//currentEnemies = [];
+    		entranceTimer = 0;
+    		cnt = 0;
+    		group3EntranceComplete = true;
+    	}
+
+    }
+
+
+     if (!group4EntranceComplete && seconds > 12) {
+    	if (cnt < G4.length) {
+    	this.flightEntrance4(cnt);
+    	cnt++;
+    	}
+    	if (cnt >= G4.length) {
+    		//currentEnemies = [];
+    		entranceTimer = 0;
+    		cnt = 0;
+    		group4EntranceComplete = true;
+    	}
+    }
+
+
+
+
+
+    if (!group5EntranceComplete && seconds > 16) {
+
+    	if (cnt < G5.length) {
+    	this.flightEntrance5(cnt);
+    	cnt++;
+    	}
+    	if (cnt >= G5.length) {
+    		//currentEnemies = [];
+    		entranceTimer = 0;
+    		cnt = 0;
+    		group5EntranceComplete = true;
+    	}
+
     }
 
 bullet.bullets.children.forEach(function(bu){
@@ -313,7 +399,22 @@ Game.prototype.flightEntrance1 = function(c) {
 
 Game.prototype.flightEntrance2 = function(c) {
 	G2[c].group2Path();
-	entranceTimer = game.time.now + 25;
+	entranceTimer = game.time.now + 500;
+}
+
+Game.prototype.flightEntrance3 = function(c) {
+	G3[c].group3Path();
+	entranceTimer = game.time.now + 50;
+}
+
+Game.prototype.flightEntrance4 = function(c) {
+	G4[c].group4Path();
+	entranceTimer = game.time.now + 1000;
+}
+
+Game.prototype.flightEntrance5 = function(c) {
+	G5[c].group5Path();
+	entranceTimer = game.time.now + 50;
 }
 
 Game.prototype.shootFunction = function() {
@@ -331,4 +432,19 @@ Game.prototype.enemyToFlyIn = function() {
   });
 
   return aliveArray;
+}
+
+Game.prototype.gameTime = function() {
+    // later record end time
+    endTime = new Date().getTime();
+
+    // time difference in ms
+    timeDiff = endTime - startTime;
+
+    // strip the miliseconds
+    timeDiff /= 1000;
+
+    // get seconds
+    seconds = Math.round(timeDiff % 60);
+    alert(seconds);
 }

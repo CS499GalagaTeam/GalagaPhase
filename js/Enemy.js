@@ -8,6 +8,9 @@ var Enemy = function(game, x, y, xPix, yPix, enemyNum) {
 	this.enemyNum = enemyNum;
 	this.completed1 = false;
 	this.completed2 = false;
+	this.completed3 = false;
+	this.completed4 = false;
+	this.completed5 = false;
 
   this.create();
 
@@ -65,6 +68,15 @@ Enemy.prototype.update = function() {
 
 		if (this.completed2)
 		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed3)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed4)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed5)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
 }
 
 
@@ -97,53 +109,62 @@ Enemy.prototype.sideTween = function() {
 	sets completed to true to begin the follow sequence
 */
 Enemy.prototype.oneIsComplete = function() {
-
 	this.completed1 = true;
 }
 
 Enemy.prototype.twoIsComplete = function() {
-
 	this.completed2 = true;
-
 }
 
+Enemy.prototype.threeIsComplete = function() {
+	this.completed3 = true;
+}
 
-Enemy.prototype.expandTween = function() {}
+Enemy.prototype.fourIsComplete = function() {
+	this.completed4 = true;
+}
+
+Enemy.prototype.fiveIsComplete = function() {
+	this.completed5 = true;
+}
+
 
 //path of the first group
 
 Enemy.prototype.group1Path = function() {
 
-  // reference point for x coordinate
-  var p = game.width / 1.33;
-  // for y coordinate
-  var q = game.width / 4
-  var pts;
+	// reference point for x coordinate
+	var p = game.width/1.33;
+	// for y coordinate
+	var q = game.width/4
+	var pts;
+	
+	//the points for  the path that the first group takes
+	if (this.x > game.width/2) {
 
-  //the points for  the path that the first group takes
-  if (this.x > game.width / 2) {
+	 pts = {
 
-    pts = {
-      'x': [p, p, p, p - 50, p - 130, p - 110, p + 110, p + 110, p - 30, p - 90, p - 200],
-      'y': [100, 200, 300, 300, 230, 10, 10, 180, 450, 500, 300],
+		'x': [p,p,p,p-50,p-130,p-110,p+110,p+110,p-30,p-90,p-200],
+		'y': [100,200,300,300,230,10,10,180,450,500,300],
 
-    }
-  //this.displayPath(pts);
-  } else {
-    pts = {
-      'x': [q, q, q, q + 50, q + 130, q + 110, q - 110, q - 110, q + 30, q + 90, q + 180],
-      'y': [100, 200, 300, 300, 230, 10, 10, 180, 450, 500, 300],
-    }
+	}
+		//this.displayPath(pts);
+}
+else {
+	 pts = {
+		'x': [q,q,q,q+50,q+130,q+110,q-110,q-110,q+30,q+90,q+180],
+		'y': [100,200,300,300,230,10,10,180,450,500,300],
+	}
 
-  //this.displayPath(pts);
-  }
-  // path of the first group using the bezier path
-  this.tween = game.add.tween(this.enemy).to(
-    {
-      x: [pts.x[0], pts.x[1], pts.x[2], pts.x[3], pts.x[4], pts.x[5],
-        pts.x[6], pts.x[7], pts.x[8], pts.x[9], pts.x[10]],
-      y: [pts.y[0], pts.y[1], pts.y[2], pts.y[3], pts.y[4], pts.y[5],
-        pts.y[6], pts.y[7], pts.y[8], pts.y[9], pts.y[10]],
+		//this.displayPath(pts);
+}
+	// path of the first group using the bezier path
+	this.tween = game.add.tween(this.enemy).to(
+	{
+          x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5], 
+         	pts.x[6],pts.x[7],pts.x[8],pts.x[9],pts.x[10] ],
+          y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5], 
+          	pts.y[6],pts.y[7],pts.y[8],pts.y[9],pts.y[10] ],
     },
       2000,
       Phaser.Easing.Quadratic.InOut,
@@ -157,20 +178,28 @@ Enemy.prototype.group1Path = function() {
 }
 
 
-Enemy.prototype.group2Path = function(pts) {
+Enemy.prototype.group2Path = function() {
+
+
+	pts = {
+		'x': [100,300,300,0,0,150,game.width/2],
+		'y': [500,400,200,200,400,500,450], 
+	}
 
 	this.tween = game.add.tween(this.enemy).to(
 	{
-		x: [100,200,300],
-		y: [100,200,300],
+		x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5],pts.x[6]],
+		y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5],pts.y[6]],
 
 	},
-	2000,
+	1500,
 	Phaser.Easing.Quadratic.InOut,
 	true,0,0).interpolation(function(v,k) {
 		return Phaser.Math.bezierInterpolation(v,k);
 	});
+	
 
+	//this.displayPath(pts);
 	this.tween.onComplete.add(this.twoIsComplete,this);
 
 }
@@ -187,6 +216,73 @@ Enemy.prototype.flyAttack = function(enemy_num, callback){
 //  tween_n.onStart.add(callback);
   //tween_n.start();
 }
+Enemy.prototype.group3Path = function() {
+
+	pts = {
+
+		'x': [game.width-100,game.width-300,game.width-300,game.width-10,game.width-10,game.width-150,game.width/2],
+		'y': [500,400,200,200,400,500,450],
+		
+	}
+
+	this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [pts.x[0],pts.x[1],pts.x[2],pts.x[3],pts.x[4],pts.x[5],pts.x[6]],
+		y: [pts.y[0],pts.y[1],pts.y[2],pts.y[3],pts.y[4],pts.y[5],pts.y[6]],
+
+	},
+	2000,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.threeIsComplete,this);
+
+}
+
+Enemy.prototype.group4Path = function() {
+
+	pts = {
+		'x':[game.width/2-200,game.width/2-200,game.width/2-50],
+		'y':[game.height-300,game.height-300,game.height-200 ],
+	}
+
+	this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [pts.x[0],pts.x[1],pts.x[2]],
+		y: [pts.y[0],pts.y[1],pts.y[2]],
+
+	},
+	2000,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.fourIsComplete,this);
+}
+
+Enemy.prototype.group5Path = function() {
+
+
+this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [game.width/2+200,game.width/2+200,game.width/2+50],
+		y: [game.height-300,game.height-300,game.height-200],
+
+	},
+	2000,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	//this.displayPath(pts);
+	this.tween.onComplete.add(this.fiveIsComplete,this);
+
+}
+
 
 // This displays a visual of the enemy's path
 // using numbers as points

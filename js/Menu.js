@@ -7,6 +7,25 @@ Menu.prototype = {
     game.load.spritesheet('play', './assets/images/play.png', 128, 64);
     game.load.spritesheet('title', './assets/images/title.png');
     game.load.image('star', './assets/images/star.png');
+    var http = new XMLHttpRequest()
+    var url = window.location.href + "getData"
+    http.open("POST", url, true)
+    http.setRequestHeader("Content-Type", "application/x-www-form-urlencoded")
+    http.onreadystatechange = function() {
+      if (http.readyState == 4 && http.status == 200) {
+        var data = JSON.parse(http.responseText)
+        var scores = data["Scores"]
+        var length = scores.length
+        for (var i = 1; i <= length; ++i) {
+          var tmp = document.getElementById("highscore" + i)
+          var tmpName = document.getElementById("highscore" + i + "name")
+          tmp.value = scores[i - 1]["Score"]
+          tmpName.value = scores[i - 1]["Name"]
+        }
+      }
+    }
+
+    http.send("")
 
   },
 

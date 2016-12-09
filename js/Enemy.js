@@ -20,7 +20,9 @@ Enemy.prototype = Object.create(Phaser.Sprite.prototype);
 Enemy.prototype.constructor = Enemy;
 
 
-Enemy.prototype.preload = function() {}
+Enemy.prototype.preload = function() {
+  game.load.image('bullet', './assets/images/galaga_bullet.png');
+}
 
 Enemy.prototype.create = function() {
 
@@ -35,6 +37,21 @@ Enemy.prototype.create = function() {
   //will be set to invisible
   this.pixel = game.add.sprite(this.xPix, this.yPix, 'pixel');
   this.pixel.visible = false;
+
+  this.bullet = game.add.weapon(1, "bullet");
+  this.bullet.bullets.enableBody = true;
+  game.physics.enable(this.bullet.bullets, Phaser.Physics.ARCADE);
+  // when bullet leaves the screen, it will be destroyed
+  this.bullet.bulletKillType = Phaser.Weapon.KILL_WORLD_BOUNDS;
+
+  //offset rotation:
+  this.bullet.bulletAngleOffset = -90;
+
+  //  The speed at which the bullet is fired
+  this.bullet.bulletSpeed = -100;
+
+  //  Tell the bullet to track the 'enemy' Sprite, offset by -16px horizontally, 0 vertically
+  this.bullet.trackSprite(this.enemy, -16, 0);
 
   game.physics.arcade.enable(this.enemy, Phaser.Physics.ARCADE);
   game.physics.arcade.enable(this.pixel);
@@ -216,6 +233,7 @@ Enemy.prototype.flyAttack = function(callback){
     if (callback != undefined) {
       tween_n.onStart.add(callback);
     }
+    this.bullet.fire()
   //tween_n.start();
 }
 Enemy.prototype.group3Path = function() {
@@ -308,4 +326,8 @@ Enemy.prototype.displayPath = function(pts) {
 Enemy.prototype.getEnemy = function () {
   return this.enemy;
 
+}
+
+Enemy.prototype.getBullet = function(){
+  return this.bullet;
 }

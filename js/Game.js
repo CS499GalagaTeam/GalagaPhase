@@ -1,33 +1,47 @@
-Game = function(game) {
+Game = function(game) {};
 
-	this.timer = 0;
-	this.cycle = 1000;
-	this.cnt = 0;
 
-}
+
+var entranceTimer = 0;
+var G1 = [];
+var G2 = [];
+var G3 = [];
+var G4 = [];
+var G5 = [];
+var currentEnemies = [];
+
+
+
+var cnt = 0;
+var group1EntranceComplete = false;
+var group2EntranceComplete = false;
+//var mainTime = 0;
+
 
 Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
-
-	return this.game.add.existing(new Enemy(this.game,x,y,xPix,yPix,enemyNum) );
+	enemy = new Enemy(this.game,x,y,xPix,yPix,enemyNum);
+	currentEnemies.push(enemy);
+	//return this.game.add.existing(new Enemy(this.game,x,y,xPix,yPix,enemyNum));
+	return this.game.add.existing(enemy);
+	
 }
 
-Game.prototype = {
 
-  preload:function() {
+  Game.prototype.preload = function() {
 
 	game.load.image('galaga', './assets/images/galaga.png');
 	game.load.image('bullet', './assets/images/bullet.png');
 	game.load.spritesheet('enemy1', './assets/images/enemy1.png',30,20);
 	game.load.spritesheet('enemy2', './assets/images/enemy2.png',30,20);
 	game.load.spritesheet('enemy3', './assets/images/enemy3.png',36,32);
-	game.load.spritesheet('enemy3Hit', './assets/images/enemy3Hit.png',36,20);
+	game.load.spritesheet('enemy3Hit', './assets/images/enemy3Hit.png',36,32);
 	game.load.image('explosion', './assets/images/explosion.png');
 	game.load.spritesheet('pixel','./assets/images/dot.png');
 	game.load.audio('pewpew', './assets/sounds/pewpew.wav');
 
-  },
+  }
 
-  create: function() {
+  Game.prototype.create = function() {
 
 	game.physics.startSystem(Phaser.Physics.ARCADE);
 	pewpew = game.add.audio('pewpew');
@@ -123,9 +137,11 @@ Game.prototype = {
 	};
 
 
-	//game.time.events.add(Phaser.Timer.SECOND * 4, createEnemy, this);
+	
 
 	//create enemies
+	//group 1
+	
 	for (var i = 0; i < 8; i = i+2) {	
 
 		if ( i == 0 || i == 1 || i == 2 || i == 3) {
@@ -139,10 +155,16 @@ Game.prototype = {
 		enemies.create(game.add.enemy(game.width/4,0,group1PixelLocations.x[i+1],group1PixelLocations.y[i+1],0));
 		}
 	}
+	G1 = currentEnemies;
+	currentEnemies = [];
+	
 
+
+	//this.createEnemy();
 	
 
 	// group 2
+	
 	for (var i = 0; i < 8; i++) {	
 
 
@@ -153,6 +175,11 @@ Game.prototype = {
 
 	}
 
+	G2 = currentEnemies;
+	currentEnemies = [];
+
+
+/*
 	//group 3 
 	for (var i = 0; i < 8; i++)
 		enemies3.create(game.add.enemy(800,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
@@ -164,24 +191,53 @@ Game.prototype = {
 		enemies5.create(game.add.enemy(game.width/2,0,group5PixelLocations.x[i],group5PixelLocations.y[i],1));
 
 
-},
+*/
 
-update: function() {
+//game.time.events.add(100, this.createEnemy(), this);
+//mainTime = game.time.now + 10000;
+}
+
+
+Game.prototype.update = function() {
 
  	this.playerMovement();
 
- 	/*if (game.time.now > this.timer) {
 
- 		this.timer = game.time.now + this.cycle;
+ 	if (!group1EntranceComplete) {
+ 	 if (game.time.now > entranceTimer) {
+ 	 		if (cnt < G1.length){
+            	this.flightEntrance1(cnt);
+            	cnt++;
+        	}
+        	if (cnt >= G1.length) {
+        		//alert(cnt);
+        		currentEnemies = [];
+        		entranceTimer = 0;
+        		cnt = 0;
+        		group1EntranceComplete = true;
+        	}
+        }
+    }
 
- 		var en = (Enemy)enemies.getAt(this.cnt);
- 		en.group1Path();
+    if(!group2EntranceComplete && game.time.totalElapsedSeconds() > 4) {
 
- 		this.cnt = this.cnt + 1;
- 	}*/
-},
+    	
+    	if (cnt < G2.length) {
+    		this.flightEntrance2(cnt);
+    		cnt++;
+    	}
+    	if (cnt > G2.length) {
+    		currentEnemies = [];
+    		entranceTimer = 0;
+    		cnt = 0;
+    		group2EntranceComplete = true;
+    	}
+    }
 
-playerMovement: function() {
+
+}
+
+Game.prototype.playerMovement = function() {
 
 	// Reset the players velocity (movement)
 	player.body.velocity.x = 0;
@@ -197,15 +253,22 @@ playerMovement: function() {
 	else  {
 		//ship is idle
 	}
-},
-
-createEnemy: function() {
-
-
-},
-
-shootFunction: function() {
-	bullet.fire()
 }
 
-};
+/* Entrance for the first group */
+Game.prototype.flightEntrance1 = function(c) {
+
+	G1[c].group1Path();
+	entranceTimer = game.time.now + 25;
+
+}
+
+Game.prototype.flightEntrance2 = function(c) {
+	G2[c].group2Path();
+	entranceTimer = game.time.now + 25;
+}
+
+Game.prototype.shootFunction = function() {
+	bullet.fire();
+}
+

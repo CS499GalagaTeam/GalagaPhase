@@ -6,6 +6,8 @@ var Enemy = function(game,x,y,xPix,yPix,enemyNum) {
 	this.xPix = xPix;
 	this.yPix = yPix;
 	this.enemyNum = enemyNum;
+	this.completed1 = false;
+	this.completed2 = false;
 
 	this.create();
 	
@@ -45,8 +47,8 @@ Enemy.prototype.create = function() {
 		This runs as soon as the enemy is created
 		once completed, the enemies will begin to follow the 
 		pixels on the screen
-		  */
-		// currently disabled
+		*/
+		
 		//this.group1Path();	
 }
 
@@ -60,7 +62,10 @@ Enemy.prototype.update = function() {
 
 		// when group1Path is completed, var compelete = true
 		// then enemy will follow the pixel 
-		//if (completed)
+		if (this.completed1)
+		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
+
+		if (this.completed2)
 		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
 }
 
@@ -91,9 +96,15 @@ Enemy.prototype.sideTween = function() {
 	once the group1Path tween is complete, this function
 	sets completed to true to begin the follow sequence
 */
-Enemy.prototype.isComplete = function() {
+Enemy.prototype.oneIsComplete = function() {
 
-	completed = true;
+	this.completed1 = true;
+}
+
+Enemy.prototype.twoIsComplete = function() {
+
+	this.completed2 = true;
+
 }
 
 
@@ -103,6 +114,7 @@ Enemy.prototype.expandTween = function() {
 }
 
 //path of the first group
+
 Enemy.prototype.group1Path = function() {
 
 	// reference point for x coordinate
@@ -144,9 +156,29 @@ else {
      }); 
      // when the path is complete, the enemy 
      //will begin to follow the pixel
-     this.tween.onComplete.add(this.isComplete,this);
+     this.tween.onComplete.add(this.oneIsComplete,this);
 
 }
+
+
+Enemy.prototype.group2Path = function(pts) {
+
+	this.tween = game.add.tween(this.enemy).to(
+	{
+		x: [100,200,300],
+		y: [100,200,300],
+
+	},
+	2000,
+	Phaser.Easing.Quadratic.InOut,
+	true,0,0).interpolation(function(v,k) {
+		return Phaser.Math.bezierInterpolation(v,k);
+	});
+	
+	this.tween.onComplete.add(this.twoIsComplete,this);
+
+}
+
 
 // This displays a visual of the enemy's path
 // using numbers as points

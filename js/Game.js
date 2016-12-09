@@ -178,6 +178,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	currentEnemies = [];
 
 
+
 /*
 	//group 3
 	for (var i = 0; i < 8; i++)
@@ -249,6 +250,7 @@ Game.prototype.playerMovement = function() {
 	else if (keys.right.isDown) {
 		// Move to the right
 		player.body.velocity.x = 150;
+		G2[0].flyAttack(function(){});
 	}
 	else  {
 		//ship is idle

@@ -174,6 +174,18 @@ Enemy.prototype.group2Path = function(pts) {
 
 }
 
+Enemy.prototype.flyAttack = function(enemy_num, callback){
+  //generate_points_from_enemy(/*(Math.random()*4)+*/1, /*(Math.random()*5)+*/1 )
+  var points = generate_points_from_enemy(Math.floor((Math.random()*8)+1),1);
+  //this.displayPath(points);
+  var tween_n = game.add.tween(this.enemy);
+    tween_n.to(points, 2000, Phaser.Easing.Quadratic.InOut, true)
+    .interpolation(function(v, k) {
+      return Phaser.Math.bezierInterpolation(v, k);
+    });
+//  tween_n.onStart.add(callback);
+  //tween_n.start();
+}
 
 // This displays a visual of the enemy's path
 // using numbers as points

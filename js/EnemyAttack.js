@@ -1,5 +1,5 @@
 function generate_attack_flight(enemy, points, callback) {
-  tween = game.add.tween(enemy.pl);
+  tween = game.add.tween(enemy);
     tween.to(points, 2000, Phaser.Easing.Quadratic.InOut, true)
     .interpolation(function(v, k) {
         console.log("v "+v+" k "+k);
@@ -10,149 +10,59 @@ function generate_attack_flight(enemy, points, callback) {
 }
 
 function generate_points_from_enemy(enemy_num, group_num) {
-    var window_height = game.width
-  switch (group_num) {
-    case 1:{
+
         switch(enemy_num) {
             case 1: {
                 console.log("1st enemy")
-                return {'x':[100,90,120,150,200,100],
-                        'y':[100,120,140,200,100,90]};
+                return {'x':[400,240,420,500,600,700,300],
+                        'y':[400,220,530,500,600,400,300]};
                 break;
             }
             case 2: {
-                return [];
+                return {'x':[100,300,120,550,500,600],
+                        'y':[100,320,240,500,600,300]};
                 break;
             }
             case 3: {
-                return [];
+                return {'x':[600,500,320,350],
+                        'y':[400,720,440,200]};
                 break;
             }
             case 4: {
-                return [];
+                return {'x':[600,200,420,650,850,200],
+                        'y':[700,520,240,300,700,300]};
                 break;
             }
             case 5: {
-                return [];
+                return {'x':[200,400,720,550,400,400],
+                        'y':[700,520,740,200,300,400]};
                 break;
             }
             case 6: {
-                return [];
+                return {'x':[100,400,820,850,600],
+                        'y':[100,620,740,300,300]};
                 break;
             }
             case 7: {
-                return [];
+                return {'x':[300,400,500,600,700,600,500,600],
+                        'y':[300,400,500,600,300,300,400,600]};
                 break;
             }
             case 8: {
-                return [];
+                return {'x':[700,700,620,550,400,200,400,300],
+                        'y':[100,220,340,500,500,300,100,200]};
+                break;
+            }
+            case 9: {
+                return {'x':[700,700,300,300],
+                        'y':[300,700,700,300]};
                 break;
             }
         }
-      break;
-    }
-    case 2:
-        switch(enemy_num) {
-            case 1: {
-                return [];
-                break;
-            }
-            case 2: {
-                return [];
-                break;
-            }
-            case 3: {
-                return [];
-                break;
-            }
-            case 4: {
-                return [];
-                break;
-            }
-            case 5: {
-                return [];
-                break;
-            }
-            case 6: {
-                return [];
-                break;
-            }
-            case 7: {
-                return [];
-                break;
-            }
-            case 8: {
-                return [];
-                break;
-            }
-        }
-      break;
-    case 3:
-        switch(enemy_num) {
-            case 1: {
-                return [];   
-                break;
-            }
-            case 2: {
-                return [];   
-                break;
-            }
-            case 3: {
-                return [];   
-                break;
-            }
-            case 4: {
-                return [];   
-                break;
-            }
-        }
-      break;
-    case 4:
-        switch(enemy_num) {
-            case 1: {
-                return [];   
-                break;
-            }
-            case 2: {
-                return [];   
-                break;
-            }
-            case 3: {
-                return [];   
-                break;
-            }
-            case 4: {
-                return [];   
-                break;
-            }
-        }
-      break;
-    case 5:
-        switch(enemy_num) {
-            case 1: {
-                return [];   
-                break;
-            }
-            case 2: {
-                return [];   
-                break;
-            }
-            case 3: {
-                return [];   
-                break;
-            }
-            case 4: {
-                return [];   
-                break;
-            }
-        }
-      break;
-  }
-  return undefined;
 }
 
 function generate_attacks(enemy, enemy_num, group_num, callback) {
-    enemy.pl.completed = false;
+    //enemy.completed = false;
   var points = generate_points_from_enemy(enemy_num, group_num);
   return generate_attack_flight(enemy, points, callback);
 }

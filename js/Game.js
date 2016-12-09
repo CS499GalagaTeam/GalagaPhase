@@ -23,7 +23,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	currentEnemies.push(enemy);
 	//return this.game.add.existing(new Enemy(this.game,x,y,xPix,yPix,enemyNum));
 	return this.game.add.existing(enemy);
-	
+
 }
 
 
@@ -43,6 +43,8 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
   Game.prototype.create = function() {
 
+		game.physics.startSystem(Phaser.Physics.ARCADE);
+			pewpew = game.add.audio('pewpew');
     //creates player
     player = game.add.sprite(0.45 * 600, 600 - 50, 'galaga');
     game.physics.arcade.enable(player);
@@ -61,9 +63,9 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
     //  Tell the bullet to track the 'player' Sprite, offset by 16px horizontally, 0 vertically
     bullet.trackSprite(player, 16, 0);
-    
 
-    
+
+
 	//enabling keyboard use
 	keys = game.input.keyboard.createCursorKeys();
 	shootButton = game.input.keyboard.addKey(Phaser.Keyboard.SPACEBAR);
@@ -105,7 +107,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 		(game.height/2)-150,(game.height/2)-150,(game.height/2)-120,(game.height/2)-90],
 
 	};
-	
+
 	var group3PixelLocations = {
 
 		'x':[(game.width/2)-90,(game.width/2)-90,(game.width/2)-120,(game.width/2)-120,
@@ -134,12 +136,12 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	};
 
 
-	
+
 
 	//create enemies
 	//group 1
-	
-	for (var i = 0; i < 8; i = i+2) {	
+
+	for (var i = 0; i < 8; i = i+2) {
 
 		if ( i == 0 || i == 1 || i == 2 || i == 3) {
 		enemies.create(game.add.enemy(game.width/1.33,0,group1PixelLocations.x[i],group1PixelLocations.y[i],1));
@@ -154,15 +156,15 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 	}
 	G1 = currentEnemies;
 	currentEnemies = [];
-	
+
 
 
 	//this.createEnemy();
-	
+
 
 	// group 2
-	
-	for (var i = 0; i < 8; i++) {	
+
+	for (var i = 0; i < 8; i++) {
 
 
 		if (i == 0 || i == 1 || i == 6 || i == 7)
@@ -177,7 +179,7 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
 
 /*
-	//group 3 
+	//group 3
 	for (var i = 0; i < 8; i++)
 		enemies3.create(game.add.enemy(800,game.height-100,group3PixelLocations.x[i],group3PixelLocations.y[i],0));
 	//group 4
@@ -218,7 +220,7 @@ Game.prototype.update = function() {
 
     if(!group2EntranceComplete && game.time.totalElapsedSeconds() > 4) {
 
-    	
+
     	if (cnt < G2.length) {
     		this.flightEntrance2(cnt);
     		cnt++;

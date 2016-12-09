@@ -9,6 +9,8 @@ var Enemy = function(game, x, y, xPix, yPix, enemyNum) {
 	this.completed1 = false;
 	this.completed2 = false;
 
+  this.create();
+
 }
 
 Enemy.prototype = Object.create(Phaser.Sprite.prototype);
@@ -38,13 +40,13 @@ Enemy.prototype.create = function() {
 
   this.sideTween();
 
-		/* 
+		/*
 		This runs as soon as the enemy is created
-		once completed, the enemies will begin to follow the 
+		once completed, the enemies will begin to follow the
 		pixels on the screen
 		*/
-		
-		//this.group1Path();	
+
+		//this.group1Path();
 }
 
 
@@ -56,7 +58,7 @@ Enemy.prototype.update = function() {
   if (!this.exists) return;
 
 		// when group1Path is completed, var compelete = true
-		// then enemy will follow the pixel 
+		// then enemy will follow the pixel
 		if (this.completed1)
 		game.physics.arcade.moveToObject(this.enemy,this.pixel,100);
 
@@ -81,7 +83,7 @@ Enemy.prototype.sideTween = function() {
   this.tween = game.add.tween(this.pixel).to({
     x: this.xPix + 200
   }, 2000, null, -1, true);
-  //moves pixel back and forth 
+  //moves pixel back and forth
   this.tween.yoyo(true, 0, 0);
   //repeats the tween. -1 repeats the tween infinite times
   this.tween.repeat(-1);
@@ -146,8 +148,8 @@ Enemy.prototype.group1Path = function() {
       Phaser.Easing.Quadratic.InOut,
        true, 0, 0).interpolation(function(v, k) {
           return Phaser.Math.bezierInterpolation(v, k);
-     }); 
-     // when the path is complete, the enemy 
+     });
+     // when the path is complete, the enemy
      //will begin to follow the pixel
      this.tween.onComplete.add(this.oneIsComplete,this);
 
@@ -167,7 +169,7 @@ Enemy.prototype.group2Path = function(pts) {
 	true,0,0).interpolation(function(v,k) {
 		return Phaser.Math.bezierInterpolation(v,k);
 	});
-	
+
 	this.tween.onComplete.add(this.twoIsComplete,this);
 
 }

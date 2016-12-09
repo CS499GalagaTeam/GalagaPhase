@@ -45,15 +45,26 @@ Phaser.GameObjectFactory.prototype.enemy = function(x,y,xPix,yPix,enemyNum) {
 
   Game.prototype.create = function() {
 
+		this.score_style = {
+      font: "20px Arial",
+      fill: "#ff0000",
+      align: "center"
+    };
+
+		var mid_x = this.game.width / 2;
+
+		score_text = this.game.add.text(mid_x, 50, "SCORE: " +currentScore , this.score_style);
+		score_text.anchor.set(0.5, 0.5);
+
 		game.physics.startSystem(Phaser.Physics.ARCADE);
 			pewpew = game.add.audio('pewpew');
     //creates player
-    player = game.add.sprite(0.45 * 600, 600 - 50, 'galaga');
-    game.physics.enable(player);
+    player = game.add.sprite(0.75 * 600, 600 - 50, 'galaga');
+    game.physics.enable(player, Phaser.Physics.ARCADE);
 
     // allows player to fire 2 bullets
     bullet = game.add.weapon(2, 'bullet');
-bullet.bullets.enableBody = true;
+		bullet.bullets.enableBody = true;
 		game.physics.enable(bullet.bullets, Phaser.Physics.ARCADE);
 
 
@@ -185,6 +196,8 @@ bullet.bullets.enableBody = true;
 	G2 = currentEnemies;
 	currentEnemies = [];
 
+
+	that_g_array = [G1, G2];
 //game.physics.arcade.overlap(bullet, enemies, null,this)
 /*
 	//group 3
@@ -242,8 +255,11 @@ Game.prototype.update = function() {
     }
 
 bullet.bullets.children.forEach(function(bu){
- G1.forEach(function(enm){
-	 game.physics.arcade.overlap(bu, enm.getEnemy(), collisionHandler);
+ that_g_array.forEach(function(enms){
+	 enms.forEach(function(enm){
+		 game.physics.arcade.overlap(bu, enm.getEnemy(), collisionHandler);
+	 })
+
  })
  })
 	//G1.forEach(function(enm){
@@ -260,6 +276,7 @@ var collisionHandler = function(bu, en) {
 	bu.kill();
 	en.kill();
 	currentScore += 20
+	score_text.setText("SCORE: "+currentScore);
 }
 
 Game.prototype.processHandler = function(bu, en) {

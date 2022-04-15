@@ -16,7 +16,6 @@ galaga in phaser
 	- current score
 	- lives left
 	- mystery symbol
-- special Donald Trump cameo
 - end of game screen:
 	- shots fired
 	- number of hits
